@@ -11,6 +11,7 @@ require_once "../db.php";
 $customers = $conn->query("SELECT COUNT(*) AS total FROM customers")->fetch_assoc()['total'];
 $products = $conn->query("SELECT COUNT(*) AS total FROM products")->fetch_assoc()['total'];
 $invoices = $conn->query("SELECT COUNT(*) AS total FROM invoices")->fetch_assoc()['total'];
+$totalPurchase = $conn->query("SELECT COALESCE(SUM(subtotal), 0) AS total FROM invoices")->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +28,8 @@ $invoices = $conn->query("SELECT COUNT(*) AS total FROM invoices")->fetch_assoc(
     <p>Total Customers: <?php echo $customers; ?></p>
     <p>Total Products: <?php echo $products; ?></p>
     <p>Total Invoices: <?php echo $invoices; ?></p>
+   
+    <p>Total Purchase Value: ₹<?php echo $totalPurchase['total']; ?></p>
 
     <hr>
 
@@ -35,10 +38,10 @@ $invoices = $conn->query("SELECT COUNT(*) AS total FROM invoices")->fetch_assoc(
     <a href="../customers/index.php">Customer Management</a>
     <br><br>
 
-    <a href="products/index.php">Product Management</a>
+    <a href="../products/index.php">Product Management</a>
     <br><br>
 
-    <a href="invoices/index.php">Invoice Management</a>
+    <a href="../invoices/index.php">Invoice Management</a>
     <br><br>
 
     <a href="logout.php">Logout</a>
